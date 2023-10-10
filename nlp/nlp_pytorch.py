@@ -18,8 +18,10 @@ pp = pprint.PrettyPrinter()
 
 # COMMAND ----------
 
-# Part 1: Tensors
-# Tensors are PyTorch's most basic building block. Each tensor is a multi-dimensional matrix; for example, a 256x256 square image might be represented by a 3x256x256 tensor, where the first dimension represents color. Here is how to create a tensor:
+# MAGIC %md
+# MAGIC # Part 1: Tensors
+# MAGIC
+# MAGIC Tensors are PyTorch's most basic building block. Each tensor is a multi-dimensional matrix; for example, a 256x256 square image might be represented by a 3x256x256 tensor, where the first dimension represents color. Here is how to create a tensor:
 
 # COMMAND ----------
 
@@ -166,3 +168,149 @@ print("Taking the stdev over rows:")
 print(data.std(dim=1))
 
 print(data.sum())
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
+# MAGIC ## Quiz
+# MAGIC
+# MAGIC Write code that creates a `torch.tensor` with the following contents:
+# MAGIC $\begin{bmatrix} 1 & 2.2 & 9.6 \\ 4 & -7.2 & 6.3 \end{bmatrix}$
+# MAGIC
+# MAGIC Now compute the average of each row (`.mean()`) and each column.
+# MAGIC
+# MAGIC What's the shape of the results?
+
+# COMMAND ----------
+
+data = torch.tensor([[1, 2.2, 9.6], [4, -7.2, 6.3]])
+
+row_avg = data.mean(dim=1)
+col_avg = data.mean(dim=0)
+
+print(row_avg.shape)
+print(row_avg)
+
+print(col_avg.shape)
+print(col_avg)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Indexing
+# MAGIC
+# MAGIC You can access arbitrary elements of a tensor using the [] operator.
+
+# COMMAND ----------
+
+# Initialize an example tensor
+x = torch.Tensor([
+                  [[1, 2], [3, 4]],
+                  [[5, 6], [7, 8]], 
+                  [[9, 10], [11, 12]] 
+                 ])
+print(x)
+print(x.shape)
+
+# COMMAND ----------
+
+# Access the 0th element, which is the first row
+x[0] # Equivalent to x[0, :]
+
+# COMMAND ----------
+
+x[:, 0]
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+matr = torch.arange(1, 16).view(5, 3)
+print(matr)
+
+# COMMAND ----------
+
+""" 
+tensor([[ 1,  2,  3],
+        [ 4,  5,  6],
+        [ 7,  8,  9],
+        [10, 11, 12],
+        [13, 14, 15]])
+"""
+print(matr[0])      # 1st row, tensor([1, 2, 3])
+print(matr[0,:])    # 1st row, tensor([1, 2, 3])
+print(matr[:,0])    # 1st column, tensor([ 1,  4,  7, 10, 13])
+print(matr[0:3])    # 0-2 rows
+print(matr[:, 0:2]) # 0-1 coluns
+print(matr[0:3, 0:2])   # 0-2 rows, 0-1 columns
+print(matr[0][2])   # item located at 0 row and 3rd column
+print(matr[0:3, 2]) # items located at 0-2 rows and 3rd column
+print(matr[0:3][2]) # items located at 3rd row and 0-2 columns
+print(matr[0:3])
+print(matr[[0, 2, 4]])
+
+
+# COMMAND ----------
+
+# We can also index into multiple dimensions with :.
+# Get the top left element of each element in our tensor
+print(x[:, 0, 0])
+print(x[:, :, :])
+
+# Print x again to see our tensor
+print(x)
+
+# Let's access the 0th and 1st elements, each twice
+i = torch.tensor([0, 0, 1, 1])
+print(i)
+print(x[i])
+
+# COMMAND ----------
+
+# Let's access the 0th elements of the 1st and 2nd elements
+i = torch.tensor([1, 2])
+j = torch.tensor([0])
+x[i, j]
+
+# COMMAND ----------
+
+# We can get a Python scalar value from a tensor with item().
+x[0, 0, 0]
+x[0, 0, 0].item()### Exercise:
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Exercise:
+# MAGIC
+# MAGIC Write code that creates a `torch.tensor` with the following contents:
+# MAGIC $\begin{bmatrix} 1 & 2.2 & 9.6 \\ 4 & -7.2 & 6.3 \end{bmatrix}$
+# MAGIC
+# MAGIC How do you get the first column? The first row?
+
+# COMMAND ----------
+
+test = torch.tensor([[1, 2.2, 9.6], [4, -7.2, 6.3]])
+print(test)
+print(test[:,0])    # 1st column
+print(test[0])      # 1st row
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Autograd
+# MAGIC
+# MAGIC Pytorch is well-known for its automatic differentiation feature. We can call the backward() method to ask PyTorch to calculate the gradients, which are then stored in the grad attribute.
+
+# COMMAND ----------
+
+# Create an example tensor
+# requires_grad parameter tells PyTorch to store gradients
+x = torch.tensor([2.], requires_grad=True)
+
+# Print the gradient if it is calculated
+# Currently None since x is a scalar
+pp.pprint(x.grad)
