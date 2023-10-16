@@ -330,25 +330,25 @@ print(model_output)
 tokens = tokenizer.convert_ids_to_tokens(model_inputs.input_ids[0])
 print(tokens)
 
-n_layers = len(model_output.attentions)
-n_heads = len(model_output.attentions[0][0])
-fig, axes = plt.subplots(6, 12)
-fig.set_size_inches(18.5*2, 10.5*2)
-for layer in range(n_layers):
-    for i in range(n_heads):
-        axes[layer, i].imshow(model_output.attentions[layer][0, i])
-        axes[layer][i].set_xticks(list(range(10)))
-        axes[layer][i].set_xticklabels(labels=tokens, rotation="vertical")
-        axes[layer][i].set_yticks(list(range(10)))
-        axes[layer][i].set_yticklabels(labels=tokens)
+# n_layers = len(model_output.attentions)
+# n_heads = len(model_output.attentions[0][0])
+# fig, axes = plt.subplots(6, 12)
+# fig.set_size_inches(18.5*2, 10.5*2)
+# for layer in range(n_layers):
+#     for i in range(n_heads):
+#         axes[layer, i].imshow(model_output.attentions[layer][0, i])
+#         axes[layer][i].set_xticks(list(range(10)))
+#         axes[layer][i].set_xticklabels(labels=tokens, rotation="vertical")
+#         axes[layer][i].set_yticks(list(range(10)))
+#         axes[layer][i].set_yticklabels(labels=tokens)
 
-        if layer == 5:
-            axes[layer, i].set(xlabel=f"head={i}")
-        if i == 0:
-            axes[layer, i].set(ylabel=f"layer={layer}")
+#         if layer == 5:
+#             axes[layer, i].set(xlabel=f"head={i}")
+#         if i == 0:
+#             axes[layer, i].set(ylabel=f"layer={layer}")
             
-plt.subplots_adjust(wspace=0.3)
-plt.show()
+# plt.subplots_adjust(wspace=0.3)
+# plt.show()
 
 # COMMAND ----------
 
@@ -477,7 +477,7 @@ for epoch in range(num_epochs):
             'optimizer_state_dict': optimizer.state_dict(),
             'val_loss': best_val_loss,
             },
-            f"/Repos/ysha@amd.com/dl-examples/nlp/checkpoints/epoch_{epoch}.pt"
+            "/Repos/ysha@amd.com/dl-examples/nlp/checkpoints/epoch_{epoch}.pt"
         )  
 
 # COMMAND ----------
